@@ -10,7 +10,6 @@ import com.backend.admin.mapper.LoginLogsMapper;
 import com.backend.admin.mapper.UserMapper;
 import com.backend.admin.service.UserService;
 import com.backend.admin.utils.IpUtil;
-import com.backend.admin.utils.RedisUtil;
 import com.backend.admin.utils.Response;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -115,7 +114,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper , User> implements U
 
         StpUtil.login(username);
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
-        return Response.success("登录成功", tokenInfo);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("token", tokenInfo.getTokenValue());
+        return Response.success("登录成功", map);
     }
 
 

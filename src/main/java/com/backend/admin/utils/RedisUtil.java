@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * Redis工具类，提供了一系列操作Redis的方法。
  */
-@Component
+
 public class RedisUtil {
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
