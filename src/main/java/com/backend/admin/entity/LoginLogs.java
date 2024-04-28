@@ -11,8 +11,8 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("account_user")
-public class User {
+@TableName("account_logs")
+public class LoginLogs {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -25,21 +25,6 @@ public class User {
      * 用户账号
      */
     private String username;
-
-    /**
-     * 密码
-     */
-    private String password;
-
-    /**
-     * 账号状态（1正常 0停用）
-     */
-    private Integer status;
-
-    /**
-     * 创建ip
-     */
-    private String createIpAt;
 
     /**
      * 最后一次登录时间
@@ -57,29 +42,8 @@ public class User {
      * 登录次数
      */
     private Integer loginCount;
-
     /**
-     * 创建者
+     * 备注
      */
-    private String createBy;
-
-    /**
-     * 创建时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @TableField(fill = FieldFill.INSERT) //创建时自动填充
-    private Date createTime;
-
-    /**
-     * 更新者
-     */
-    private String updateBy;
-
-    /**
-     * 更新时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @TableField(fill = FieldFill.INSERT_UPDATE)//创建与修改时自动填充
-    private Date updateTime;
-
+    private String remake;
 }

@@ -11,14 +11,15 @@ public class Response{
      * 成功相应方法
      * @param data 相应的数据
      */
-    public static Response success(Object data)
+    public static Response success(String msg,Object data)
     {
         Response response = new Response();
         response.setCode(200);
-        response.setMsg("success");
+        response.setMsg(msg);
         response.setData(data);
         return response;
     }
+
     public static Response error(Object data)
     {
         Response response = new Response();
