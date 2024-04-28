@@ -1,5 +1,7 @@
 package com.backend.admin.service.impl;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.backend.admin.dto.LoginDto;
 import com.backend.admin.entity.LoginLogs;
@@ -8,6 +10,7 @@ import com.backend.admin.mapper.LoginLogsMapper;
 import com.backend.admin.mapper.UserMapper;
 import com.backend.admin.service.UserService;
 import com.backend.admin.utils.IpUtil;
+import com.backend.admin.utils.RedisUtil;
 import com.backend.admin.utils.Response;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -109,10 +112,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper , User> implements U
         ll.setUsername(username);
         loginLogsMapper.insert(ll);
 
-        HashMap<String, Object> token = new HashMap<>();
-        token.put("token", "xxx");
 
-        return Response.success("success", token);
+        StpUtil.login(username);
+        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+        return Response.success("登录成功", tokenInfo);
     }
 
 

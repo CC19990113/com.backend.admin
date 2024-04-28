@@ -1,5 +1,6 @@
 package com.backend.admin.service;
 
+import cn.dev33.satoken.util.SaResult;
 import com.backend.admin.dto.LoginDto;
 import com.backend.admin.entity.User;
 import com.backend.admin.utils.Response;
