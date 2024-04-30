@@ -51,15 +51,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserInfo> implement
     @Override
     public Response updateStatus(UserDto userDto, HttpServletRequest request) {
         if(userDto.getId() == null) {
-            return Response.error("用户ID不能为空");
+            throw new RuntimeException("id不能为空");
         }
 
         UserInfo userInfo = userMapper.selectById(userDto.getId());
         if(userInfo == null){
-            return Response.error("用户不存在");
+            throw new RuntimeException("用户不存在");
         }
         if(Objects.equals(userDto.getStatus(), userInfo.getStatus()) | userDto.getStatus() == null){
-            return Response.error("状态错误");
+            throw new RuntimeException("状态不能为空");
         }
         userInfo.setStatus(userDto.getStatus());
         userMapper.updateById(userInfo);

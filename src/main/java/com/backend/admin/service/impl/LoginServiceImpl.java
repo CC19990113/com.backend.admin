@@ -33,11 +33,11 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, User> implements 
         String username = loginDto.getUsername();
         String password = loginDto.getPassword();
         if (username == null || password == null) {
-            return Response.error("用户名或密码不能为空");
+            throw new RuntimeException("用户名或密码不能为空");
         }
         String ipAddress = IpUtil.getIpAddr(request);
         if (!userExists(username)) {
-            return Response.error("用户不存在");
+            throw new RuntimeException("用户不存在11111");
         }
         User u = loginMapper.selectOne(new QueryWrapper<User>().eq("username", username));
         if (u.getStatus() == 0) {
@@ -62,7 +62,7 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, User> implements 
         ll.setUsername(username);
         ll.setRemake("用户被禁用");
         loginLogsMapper.insert(ll);
-        return Response.error("用户被禁用");
+        throw new RuntimeException("用户被禁用");
     }
 
     private boolean isAccountActive(User user) {
@@ -78,7 +78,7 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, User> implements 
         loginLogsMapper.insert(ll);
         u.setStatus(0);
         loginMapper.updateById(u);
-        return Response.error("账号已被封禁，请联系管理员解封");
+        throw new RuntimeException("账号被封禁");
     }
 
     private boolean passwordMatches(User user, String password) {
@@ -98,7 +98,7 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, User> implements 
         ll.setRemake("密码错误，剩余登录次数" + count);
         loginLogsMapper.insert(ll);
 
-        return Response.error("密码错误，剩余登录次数" + count);
+        throw new RuntimeException("密码错误，剩余登录次数" + count);
     }
 
     private Response loginSuccess(String username, String ipAddress, User user) {
