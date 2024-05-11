@@ -17,14 +17,18 @@ public class UserController {
     @Resource
     private UserService userService;
     @RequestMapping(value ="/list", method = RequestMethod.POST)
-    public Response list(@RequestBody PageDto pageDto, UserDto userdto)
+    public Response list(@RequestBody UserDto userdto)
     {
-        return userService.getList(pageDto,userdto);
+        return userService.getList(userdto);
     }
 
     @RequestMapping(value = "/update_status", method = RequestMethod.POST)
-    public Response updateStatus(@RequestBody UserDto userDto, HttpServletRequest request) {
-        log.error("id--{},",userDto);
-        return userService.updateStatus(userDto,request);
+    public Response updateStatus(@RequestBody UserDto userDto) {
+        return userService.updateStatus(userDto);
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public Response delete(@RequestBody UserDto userDto) {
+        return userService.delete(userDto);
     }
 }

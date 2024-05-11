@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
-public class UserDto {
+public class UserDto extends PageDto{
     private Integer id;
     private String username;
     private Integer status;

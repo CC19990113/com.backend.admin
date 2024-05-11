@@ -31,29 +31,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserInfo> implement
     @Resource
     private LoginLogsMapper loginLogsMapper;
     @Override
-    public Response getList(PageDto pageDto, UserDto userdto) {
+    public Response getList(UserDto userdto) {
+        int page = userdto.getPage();
+        int limit = userdto.getLimit();
+
+        PageDto pageDto = new PageDto(page,limit);
         PageDto pageInfo = new PageUtil().pageVerify(pageDto);
 
-        IPage<UserInfo> page = new Page<>(pageInfo.getPage(), pageInfo.getLimit());
+        IPage<UserInfo> userPage = new Page<>(pageInfo.getPage(), pageInfo.getLimit());
         QueryWrapper<UserInfo> qw = new QueryWrapper<>();
         qw.orderByDesc("create_time");
-        if (userdto.getUsername() != null) {
-            qw.like("username", userdto.getUsername());
-        }
-        if (userdto.getStatus() != null) {
+        qw.like("username", userdto.getUsername());
+        if(userdto.getStatus() != null){
             qw.eq("status", userdto.getStatus());
         }
-
-        IPage<UserInfo> list = userMapper.selectPage(page, qw);
+        IPage<UserInfo> list = userMapper.selectPage(userPage, qw);
         return Response.success("查询成功", list);
     }
 
     @Override
-    public Response updateStatus(UserDto userDto, HttpServletRequest request) {
+    public Response updateStatus(UserDto userDto) {
         if(userDto.getId() == null) {
             throw new RuntimeException("id不能为空");
         }
-
         UserInfo userInfo = userMapper.selectById(userDto.getId());
         if(userInfo == null){
             throw new RuntimeException("用户不存在");
@@ -66,4 +66,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserInfo> implement
 
         return Response.success("修改成功", null);
     }
+
+    @Override
+    public Response delete(UserDto userDto) {
+        if(userDto.getId() == null) {
+            throw new RuntimeException("id不能为空");
+        }
+        UserInfo userInfo = userMapper.selectById(userDto.getId());
+        if(userInfo == null){
+            throw new RuntimeException("用户不存在");
+        }
+        userMapper.deleteById(userDto.getId());
+
+        return Response.success("删除成功", null);
+    }
+
 }

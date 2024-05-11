@@ -1,5 +1,6 @@
 package com.backend.admin.controller;
 
+import com.backend.admin.dto.LoginLogsDto;
 import com.backend.admin.dto.PageDto;
 import com.backend.admin.service.LoginLogsService;
 import com.backend.admin.utils.Response;
@@ -14,8 +15,8 @@ public class LoginLogsController {
     private LoginLogsService LoginLogsService;
 
     @RequestMapping(value = "/list",method = RequestMethod.POST)
-    public Response list(@RequestBody PageDto pageDto, String username){
-        return LoginLogsService.getList(username, pageDto);
+    public Response list(@RequestBody LoginLogsDto loginLogsDto){
+        return LoginLogsService.getList(loginLogsDto);
     }
 
 }

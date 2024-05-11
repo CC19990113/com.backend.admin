@@ -10,7 +10,9 @@ import jakarta.servlet.http.HttpServletRequest;
 
 
 public interface UserService extends IService<UserInfo> {
-    Response getList(PageDto pageDto, UserDto userdto);
+    Response getList(UserDto userdto);
 
-    Response updateStatus(UserDto userDto, HttpServletRequest request);
+    Response updateStatus(UserDto userDto);
+
+    Response delete(UserDto userDto);
 }

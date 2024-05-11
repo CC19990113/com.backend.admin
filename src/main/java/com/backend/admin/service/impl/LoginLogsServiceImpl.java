@@ -1,6 +1,7 @@
 package com.backend.admin.service.impl;
 
 import com.backend.admin.constant.Constant;
+import com.backend.admin.dto.LoginLogsDto;
 import com.backend.admin.dto.PageDto;
 import com.backend.admin.dto.PageDto;
 import com.backend.admin.entity.LoginLogs;
@@ -24,15 +25,19 @@ public class LoginLogsServiceImpl extends ServiceImpl<LoginLogsMapper, LoginLogs
     private LoginLogsMapper loginLogsMapper;
 
     @Override
-    public Response getList(String username, PageDto pageDto) {
+    public Response getList(LoginLogsDto loginLogsDto) {
+        int page = loginLogsDto.getPage();
+        int limit = loginLogsDto.getLimit();
+        String username = loginLogsDto.getUsername();
+
+        PageDto pageDto = new PageDto(page,limit);
         PageDto pageInfo = new PageUtil().pageVerify(pageDto);
 
         IPage<LoginLogs> logsIpage = new Page<>(pageInfo.getPage(),pageInfo.getLimit());
         QueryWrapper<LoginLogs> qw = new QueryWrapper<>();
         qw.orderByDesc("last_login_at");
-        if (username != null) {
-            qw.like("username",username);
-        }
+        System.out.println("username:"+username);
+        qw.like("username",username);
         IPage<LoginLogs> list = loginLogsMapper.selectPage(logsIpage,qw);
 
         return Response.success("获取成功",list);
